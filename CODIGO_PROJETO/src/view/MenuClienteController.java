@@ -173,19 +173,17 @@ public class MenuClienteController implements Initializable {
 		// String pesquisaCpf = txtCpfPesquisa.getText();
 		String pesquisaNome = txtNomePesquisa.getText();
 
-		if (!pesquisaNome.trim().equals("")) {
-			ArrayList<Pessoa> pVazia = new ArrayList<Pessoa>();
-			ObservableList obl = FXCollections.observableArrayList(pVazia);
-			this.tableViewMenuPessoa.setItems(obl);
-			Pessoa p = new Pessoa();
-			PessoaDAO pDAO = new PessoaDAO();
-			ArrayList<Pessoa> getPessoas = new ArrayList<Pessoa>();
-			getPessoas = pDAO.consultarPessoas(pesquisaNome);
-			obl = FXCollections.observableArrayList(getPessoas);
-			this.tableViewMenuPessoa.setItems(obl);
-			this.colunaNome.setCellValueFactory(new PropertyValueFactory<Pessoa, String>("nome"));
-			this.colunaCpf.setCellValueFactory(new PropertyValueFactory<Pessoa, String>("cpf"));
-		}
+		ArrayList<Pessoa> pVazia = new ArrayList<Pessoa>();
+		ObservableList obl = FXCollections.observableArrayList(pVazia);
+		this.tableViewMenuPessoa.setItems(obl);
+		Pessoa p = new Pessoa();
+		PessoaDAO pDAO = new PessoaDAO();
+		ArrayList<Pessoa> getPessoas = new ArrayList<Pessoa>();
+		getPessoas = pDAO.consultarPessoas(pesquisaNome);
+		obl = FXCollections.observableArrayList(getPessoas);
+		this.tableViewMenuPessoa.setItems(obl);
+		this.colunaNome.setCellValueFactory(new PropertyValueFactory<Pessoa, String>("nome"));
+		this.colunaCpf.setCellValueFactory(new PropertyValueFactory<Pessoa, String>("cpf"));
 	}
 		
 	@FXML

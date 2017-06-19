@@ -37,3 +37,5 @@ constraint movimento_cliente foreign key (id_cliente) references cliente (id_cli
 constraint movimento_caminhao foreign key (id_caminhao) references caminhao (id_caminhao),
 constraint movimento_cacamba foreign key (id_cacamba) references cacamba (id_cacamba)
 ) engine=innodb;
+
+INSERT INTO `cliente` (`id_cliente`,`cpf`,`nome`,`telefone`,`endereco`) VALUES (1,"1609042440099","Mannix","670-1685","P.O. Box 991, 794 Ut, Road"),(2,"1606102718799","Deacon","807-9230","P.O. Box 805, 5454 Aliquam Street"),(3,"1691110440799","Murphy","445-0435","5146 Vel, Rd."),(4,"1637080168799","Christian","327-3308","404-6958 Commodo Av."),(5,"1655122937799","Galvin","748-4198","Ap #796-1459 Nec Ave"),(6,"1636030420899","Marvin","611-8918","P.O. Box 147, 3311 Magna. St."),(7,"1677040768999","Gannon","657-6752","8574 Elit, Road"),(8,"1608042091999","Walter","749-6489","Ap #694-2758 Eros Rd."),(9,"1604082864199","Hu","495-0465","P.O. Box 368, 2235 Donec Ave"),(10,"1645030854199","Christopher","506-9801","Ap #864-6762 Eget Rd.");
