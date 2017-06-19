@@ -21,19 +21,19 @@ public class PessoaDAO {
 		PreparedStatement ps = null;
 
 		conn = conexao.abreConexaoBD();
-		String sql = "Select * from pessoa where cpf='"+p.getCpf()+"' ";
+		String sql = "Select * from cliente where cpf='"+p.getCpf()+"' ";
 		int retorno = 0;
 		try {
 			st = (Statement) conn.createStatement();
 			rs = st.executeQuery(sql);
 			if (!rs.next()) {
 				// incluir
-				sql = "insert into pessoa (cpf,nome,datanasc,id_profis) values (?,?,?,?)";
+				sql = "insert into cliente (cpf,nome,telefone,endereco) values (?,?,?,?)";
 				ps = (PreparedStatement) conn.prepareStatement(sql);
 				ps.setString(1, p.getCpf());
 				ps.setString(2, p.getNome());
-				ps.setString(3, p.getDatanasc());
-				ps.setInt(4, p.getId_profis());
+				ps.setString(3, p.getTelefone());
+				ps.setString(4, p.getEndereco());
 				ps.executeUpdate();
 				retorno = 1;
 			} else {
@@ -59,13 +59,13 @@ public class PessoaDAO {
 		int retorno = 0;
 		try {
 			// alterar
-			sql = "update pessoa set cpf=?, nome=?, datanasc=?, id_profis=? where id_pessoa=?";
+			sql = "update cliente set cpf=?, nome=?, telefone=?, endereco=? where id_cliente=?";
 			ps = (PreparedStatement) conn.prepareStatement(sql);
 			ps.setString(1, p.getCpf());
 			ps.setString(2, p.getNome());
-			ps.setString(3, p.getDatanasc());
-			ps.setInt(4, p.getId_profis());
-			ps.setInt(5, p.getId_pessoa());
+			ps.setString(3, p.getTelefone());
+			ps.setString(4, p.getEndereco());
+			ps.setInt(5, p.getId_cliente());
 			ps.executeUpdate();
 			retorno = 1;
 		} catch (SQLException e) {
@@ -87,7 +87,7 @@ public class PessoaDAO {
 		int retorno = 0;
 		try {
 			// excluir
-			sql = "delete from pessoa where id_pessoa=?";
+			sql = "delete from cliente where id_cliente=?";
 			ps = (PreparedStatement) conn.prepareStatement(sql);
 			ps.setInt(1, id);
 			ps.executeUpdate();
@@ -106,42 +106,22 @@ public class PessoaDAO {
 		ResultSet rs = null;
 		Statement st = null;
 		conn = conexao.abreConexaoBD();
-		String sql = "SELECT id_pessoa, cpf, nome, datanasc, id_profis FROM pessoa where cpf like'" + cpf + "'";
+		String sql = "SELECT id_cliente, cpf, nome, telefone, endereco FROM cliente where cpf like'" + cpf + "'";
 		try {
 			st = conn.createStatement();
 			rs = st.executeQuery(sql);
 			if (rs.next()) {
-				p.setId_pessoa(rs.getInt(1));
+				p.setId_cliente(rs.getInt(1));
 				p.setCpf(rs.getString(2));
 				p.setNome(rs.getString(3));
-				p.setDatanasc(rs.getString(4));
-				p.setId_profis(rs.getInt(5));
+				p.setTelefone(rs.getString(4));
+				p.setEndereco(rs.getString(5));
 			}
 		} catch (SQLException e) {
 			p.setCpf("");
 			p.setNome("");
 		}
 		return p;
-	}
-	
-	public String retornaProfissao(int idprofis){
-		Conexao conexao = new Conexao();
-		Connection conn = null;
-		ResultSet rs = null;
-		Statement st = null;
-		conn = conexao.abreConexaoBD();
-		String profis = "";
-		String sql = "SELECT descricao FROM profissao where id_profis="+idprofis;
-		try {
-			st = conn.createStatement();
-			rs = st.executeQuery(sql);
-			if (rs.next()) {
-				profis = rs.getString(1);
-			}
-		} catch (SQLException e) {
-
-		}
-		return profis;
 	}
 	
 	public ArrayList<Pessoa> consultarPessoas(String parametro) {
@@ -158,9 +138,9 @@ public class PessoaDAO {
 		conn = conexao.abreConexaoBD();
 
 		if (parametro == null) {
-			sql = "Select * from pessoa order by nome";
+			sql = "Select * from cliente order by nome";
 		} else {
-			sql = "select * from pessoa where nome like '" + parametro + "%'";
+			sql = "select * from cliente where nome like '" + parametro + "%'";
 		}
 		try {
 			st = conn.createStatement();

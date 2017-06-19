@@ -40,7 +40,21 @@ public class MenuSistemaController implements Initializable {
 	
 	@FXML
 	void onActionMenuCliente(ActionEvent event) {
-		Platform.exit();
+		try {
+			AnchorPane rootx = new AnchorPane();
+			rootx = FXMLLoader.load(getClass().getResource("/view/MenuCliente.fxml"));
+			Scene scenex = new Scene(rootx);
+			final Stage stagex = new Stage();
+			stagex.setScene(scenex);
+			stagex.setTitle("Menu | Clientes");
+			stagex.initModality(Modality.APPLICATION_MODAL);
+			Main main = new Main();
+			stagex.initOwner(main.stage);
+			stagex.show();
+
+		} catch (Exception e) {
+			Util.mensagemErro(e.getMessage());
+		}
 	}
 	
 	@FXML

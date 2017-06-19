@@ -11,31 +11,30 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="397.0" prefWidth="473.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MenuPessoaController">
+<AnchorPane prefHeight="397.0" prefWidth="473.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MenuClienteController">
    <children>
       <VBox layoutX="-186.0" layoutY="-116.0" prefHeight="427.0" prefWidth="437.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <TabPane fx:id="tabPane" blendMode="ADD" prefHeight="437.0" prefWidth="491.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
-                <Tab fx:id="tabPaneCadastro" text="Cadastrar Pessoas">
+                <Tab fx:id="tabPaneCadastro" text="Cadastrar Cliente">
                      <content>
                         <Pane prefHeight="360.0" prefWidth="453.0">
                            <children>
-                              <TextField fx:id="txtCodigo" layoutX="150.0" layoutY="72.0" prefHeight="25.0" prefWidth="192.0" promptText="Código" />
+                              <TextField fx:id="txtCodigo" layoutX="150.0" layoutY="72.0" prefHeight="25.0" prefWidth="192.0" promptText="Código" visible="false"/>
                               <TextField fx:id="txtNome" layoutX="150.0" layoutY="97.0" prefHeight="25.0" prefWidth="192.0" promptText="Nome" />
                               <TextField fx:id="txtCpf" layoutX="150.0" layoutY="122.0" prefHeight="25.0" prefWidth="192.0" promptText="CPF" />
-                              <TextField fx:id="txtDataNasc" layoutX="150.0" layoutY="147.0" prefHeight="25.0" prefWidth="192.0" promptText="Data Nascimento" />
-                              <TextField fx:id="txtProfissao" layoutX="150.0" layoutY="172.0" prefHeight="25.0" prefWidth="192.0" promptText="Profissão" visible="false" />
+                              <TextField fx:id="txtTelefone" layoutX="150.0" layoutY="147.0" prefHeight="25.0" prefWidth="192.0" promptText="Telefone" />
+                              <TextField fx:id="txtEndereco" layoutX="150.0" layoutY="172.0" prefHeight="25.0" prefWidth="192.0" promptText="Endereço" />
                               <Button fx:id="btnIncluir" layoutX="119.0" layoutY="225.0" mnemonicParsing="false" onAction="#onActionBtnIncluir" prefHeight="25.0" prefWidth="62.0" text="Incluir" />
                               <Button fx:id="btnAlterar" layoutX="181.0" layoutY="225.0" mnemonicParsing="false" onAction="#onActionBtnAlterar" prefHeight="25.0" prefWidth="62.0" text="Alterar" />
                               <Button fx:id="btnExcluir" layoutX="243.0" layoutY="225.0" mnemonicParsing="false" onAction="#onActionBtnExcluir" prefHeight="25.0" prefWidth="62.0" text="Excluir" />
                               <Button fx:id="btnLimpar" layoutX="305.0" layoutY="225.0" mnemonicParsing="false" onAction="#onActionBtnLimpar" prefHeight="25.0" prefWidth="62.0" text="Limpar" />
-                              <ComboBox fx:id="comboProfissao" layoutX="150.0" layoutY="174.0" onAction="#onActionComboProfissao" prefHeight="22.0" prefWidth="192.0" />
                            </children>
                         </Pane>
                      </content>
                   </Tab>
-                <Tab fx:id="tabPanePesquisa" text="Pesquisar Pessoas">
+                <Tab fx:id="tabPanePesquisa" text="Pesquisar Cliente">
                      <content>
                         <Pane prefHeight="200.0" prefWidth="200.0">
                            <children>

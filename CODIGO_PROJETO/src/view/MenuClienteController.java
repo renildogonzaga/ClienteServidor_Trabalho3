@@ -33,7 +33,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class MenuPessoaController implements Initializable {
+public class MenuClienteController implements Initializable {
 
 	@FXML
 	private TabPane tabPane;
@@ -60,10 +60,10 @@ public class MenuPessoaController implements Initializable {
 	private TextField txtCpfPesquisa;
 	
 	@FXML
-	private TextField txtDataNasc;
+	private TextField txtTelefone;
 
 	@FXML
-	private TextField txtProfissao;
+	private TextField txtEndereco;
 	
 	@FXML
 	private Button btnIncluir;
@@ -91,18 +91,10 @@ public class MenuPessoaController implements Initializable {
 
     @FXML
     private TableColumn<Pessoa,String> colunaCpf;
-    
-    @FXML
-    private ComboBox<String> comboProfissao;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		try{
-			limparPreencherComboBoxProfissao();
-		}
-		catch (SQLException e1) {
-			Util.mensagemErro("ERRO ao tentar alimentar o combo de profissões.");
-		}
+
 	}
 
 	@FXML
@@ -114,11 +106,11 @@ public class MenuPessoaController implements Initializable {
 		
 		p.setNome(this.txtNome.getText());
 		p.setCpf(this.txtCpf.getText());
-		p.setDatanasc(this.txtDataNasc.getText());
-		p.setId_profis(Integer.parseInt(this.txtProfissao.getText()));
+		p.setTelefone(this.txtTelefone.getText());
+		p.setEndereco(this.txtEndereco.getText());
 		
 		//	Verifica se algum campo está em branco
-		if(p.getNome().trim().equals("") || p.getCpf().trim().equals("") || p.getDatanasc().trim().equals("") || Integer.toString((p.getId_profis())).trim().equals("")){
+		if(p.getNome().trim().equals("") || p.getCpf().trim().equals("") || p.getTelefone().trim().equals("") || p.getEndereco().trim().equals("")){
 			u.mensagemErro("Preencha todos os campos!");	
 		}
 		else
@@ -136,14 +128,14 @@ public class MenuPessoaController implements Initializable {
 		PessoaDAO pDAO = new PessoaDAO();
 		Util u = new Util();
 		
-		p.setId_pessoa(Integer.parseInt(this.txtCodigo.getText()));
+		p.setId_cliente(Integer.parseInt(this.txtCodigo.getText()));
 		p.setNome(this.txtNome.getText());
 		p.setCpf(this.txtCpf.getText());
-		p.setDatanasc(this.txtDataNasc.getText());
-		p.setId_profis(Integer.parseInt(this.txtProfissao.getText()));
+		p.setTelefone(this.txtTelefone.getText());
+		p.setEndereco(this.txtEndereco.getText());
 		
 		//	Verifica se algum campo está em branco
-		if(p.getNome().trim().equals("") || p.getCpf().trim().equals("") || p.getDatanasc().trim().equals("") || Integer.toString((p.getId_profis())).trim().equals("") || Integer.toString((p.getId_pessoa())).trim().equals("")){
+		if(p.getNome().trim().equals("") || p.getCpf().trim().equals("") || p.getTelefone().trim().equals("") || p.getEndereco().trim().equals("") || Integer.toString((p.getId_cliente())).trim().equals("")){
 			u.mensagemErro("Preencha todos os campos!");	
 		}
 		else
@@ -161,15 +153,15 @@ public class MenuPessoaController implements Initializable {
 		PessoaDAO pDAO = new PessoaDAO();
 		Util u = new Util();
 		
-		p.setId_pessoa(Integer.parseInt(this.txtCodigo.getText()));
+		p.setId_cliente(Integer.parseInt(this.txtCodigo.getText()));
 		
 		//	Verifica se algum campo está em branco
-		if(Integer.toString((p.getId_pessoa())).trim().equals("")){
+		if(Integer.toString((p.getId_cliente())).trim().equals("")){
 			u.mensagemErro("Preencha o código da pessoa!");	
 		}
 		else
 		{
-			pDAO.excluir(p.getId_pessoa());
+			pDAO.excluir(p.getId_cliente());
 			u.mensagemInformacao("Exclusão Realizada com Sucesso.");
 			this.limpaTela();
 		}
@@ -178,7 +170,7 @@ public class MenuPessoaController implements Initializable {
 	@FXML
 	void onActionBtnPesquisar(ActionEvent event) throws SQLException {
 
-		//String pesquisaCpf = txtCpfPesquisa.getText();
+		// String pesquisaCpf = txtCpfPesquisa.getText();
 		String pesquisaNome = txtNomePesquisa.getText();
 
 		if (!pesquisaNome.trim().equals("")) {
@@ -194,69 +186,8 @@ public class MenuPessoaController implements Initializable {
 			this.colunaNome.setCellValueFactory(new PropertyValueFactory<Pessoa, String>("nome"));
 			this.colunaCpf.setCellValueFactory(new PropertyValueFactory<Pessoa, String>("cpf"));
 		}
-		
-		/*else {
-			if (!pesquisaCpf.trim().equals("")) {
-				Pessoa p = new Pessoa();
-				PessoaDAO pDAO = new PessoaDAO();
-				Util u = new Util();
-				p.setCpf(this.txtCpfPesquisa.getText());
-				// Verifica se algum campo está em branco
-				if (p.getCpf().trim().equals("")) {
-					u.mensagemErro("Preencha o CPF da pessoa!");
-				} else {
-					Pessoa p2 = new Pessoa();
-					p2 = (Pessoa) pDAO.localizarPorCpf(p.getCpf());
-					if (p2.getNome().trim().equals("") || p2.getCpf().trim().equals("")) {
-						u.mensagemErro("Pessoa não localizada!");
-						this.limpaTela();
-					} else {
-						String profissao = "";
-						profissao = pDAO.retornaProfissao(p2.getId_profis());
-						u.mensagemInformacao("Nome: " + p2.getNome() + "\nCPF: " + p2.getCpf() + "\nData Nascimento: "
-								+ p2.getDatanasc() + "\nProfissão: " + profissao);
-						this.limpaTela();
-					}
-				}
-			}
-		}*/
 	}
-	
-
-	 @FXML
-	 void onActionComboProfissao(ActionEvent event) throws SQLException 
-	 {
-		 
-		 String sigla = this.comboProfissao.getSelectionModel().getSelectedItem();
-		 Profissao pr = new Profissao();
-		 ProfissaoDAO prDAO = new ProfissaoDAO();
-
-		 pr.setId(prDAO.getIdProfissao(sigla));
-		 if (pr.getId() != 0)
-		 {
-			 this.txtProfissao.setText(Integer.toString(pr.getId()));
-			 //selectionModel.select(0); //select by object
-		 }
-	 }
-	 
-		public void limparPreencherComboBoxProfissao() throws SQLException
-		{
-			this.comboProfissao.getItems().clear();
-			Profissao pr = new Profissao();
-			ProfissaoDAO prDAO = new ProfissaoDAO();
-			
-			ArrayList<Profissao> profis = new ArrayList<Profissao>();
-			profis = prDAO.getProfissoes();
-			ObservableList<String> obl = FXCollections.observableArrayList();
-			 
-			for(int i=0;i<profis.size(); i++)
-			{
-				String s = profis.get(i).getDescricao();
-			    obl.add(s);
-			}
-			this.comboProfissao.setItems(obl);
-		}
-	
+		
 	@FXML
 	void onActionBtnLimpar(ActionEvent event) {
 		this.limpaTela();
@@ -267,15 +198,8 @@ public class MenuPessoaController implements Initializable {
 		this.txtNome.setText("");
 		this.txtCpf.setText("");
 		this.txtCodigo.setText("");
-		this.txtDataNasc.setText("");
-		this.txtProfissao.setText("");
-		
-		try{
-			limparPreencherComboBoxProfissao();
-		}
-		catch (SQLException e1) {
-			Util.mensagemErro("ERRO ao tentar alimentar o combo de profissões.");
-		}
+		this.txtTelefone.setText("");
+		this.txtEndereco.setText("");
 	}
 	
 	@FXML

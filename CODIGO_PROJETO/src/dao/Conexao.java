@@ -14,7 +14,7 @@ public class Conexao {
 	// IP do servidor do banco
 	private String host = "127.0.0.1";
 	// Nome do banco de dados
-	private String dbName = "trabalho2";
+	private String dbName = "controle_cacamba";
 	// URL de conexao do banco
 	private String url = "jdbc:mysql://" + host + "/" + dbName;
 	// Objeto do tipo Connection para estabelecer a conexão
