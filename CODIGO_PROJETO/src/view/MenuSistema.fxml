@@ -18,6 +18,8 @@
                     <MenuItem fx:id="menuCliente" mnemonicParsing="false" onAction="#onActionMenuCliente" text="Clientes" />
                         <MenuItem fx:id="menuCaminhao" mnemonicParsing="false" onAction="#onActionMenuCaminhao" text="Caminhões" />
                         <MenuItem fx:id="menuCacamba" mnemonicParsing="false" onAction="#onActionMenuCacamba" text="Caçambas" />
+                        <MenuItem fx:id="menuMovimento" mnemonicParsing="false" onAction="#onActionMenuMovimento" text="Movimentação" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem fx:id="menuUsuario" mnemonicParsing="false" onAction="#onActionMenuUsuario" text="Usuários" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem fx:id="menuSair" mnemonicParsing="false" onAction="#onActionMenuSair" text="Sair" />

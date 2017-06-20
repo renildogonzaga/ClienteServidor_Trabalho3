@@ -30,6 +30,9 @@ public class MenuSistemaController implements Initializable {
 
 	@FXML
 	private MenuItem menuCacamba;
+	
+	@FXML
+	private MenuItem menuMovimento;
 
 	@FXML
 	private MenuItem menuUsuario;
@@ -59,23 +62,51 @@ public class MenuSistemaController implements Initializable {
 	
 	@FXML
 	void onActionMenuCaminhao(ActionEvent event) {
-		Platform.exit();
+		try {
+			AnchorPane rootx = new AnchorPane();
+			rootx = FXMLLoader.load(getClass().getResource("/view/MenuCaminhao.fxml"));
+			Scene scenex = new Scene(rootx);
+			final Stage stagex = new Stage();
+			stagex.setScene(scenex);
+			stagex.setTitle("Menu | Caminhões");
+			stagex.initModality(Modality.APPLICATION_MODAL);
+			Main main = new Main();
+			stagex.initOwner(main.stage);
+			stagex.show();
+
+		} catch (Exception e) {
+			Util.mensagemErro(e.getMessage());
+		}
 	}
 	
 	@FXML
 	void onActionMenuCacamba(ActionEvent event) {
-		Platform.exit();
+		try {
+			AnchorPane rootx = new AnchorPane();
+			rootx = FXMLLoader.load(getClass().getResource("/view/MenuCacamba.fxml"));
+			Scene scenex = new Scene(rootx);
+			final Stage stagex = new Stage();
+			stagex.setScene(scenex);
+			stagex.setTitle("Menu | Caçambas");
+			stagex.initModality(Modality.APPLICATION_MODAL);
+			Main main = new Main();
+			stagex.initOwner(main.stage);
+			stagex.show();
+
+		} catch (Exception e) {
+			Util.mensagemErro(e.getMessage());
+		}
 	}
 	
 	@FXML
-	void onActionMenuPessoa(ActionEvent event) {
+	void onActionMenuMovimento(ActionEvent event) {
 		try {
 			AnchorPane rootx = new AnchorPane();
-			rootx = FXMLLoader.load(getClass().getResource("/view/MenuPessoa.fxml"));
+			rootx = FXMLLoader.load(getClass().getResource("/view/MenuMovimento.fxml"));
 			Scene scenex = new Scene(rootx);
 			final Stage stagex = new Stage();
 			stagex.setScene(scenex);
-			stagex.setTitle("Menu | Pessoas");
+			stagex.setTitle("Menu | Movimentação");
 			stagex.initModality(Modality.APPLICATION_MODAL);
 			Main main = new Main();
 			stagex.initOwner(main.stage);
@@ -84,27 +115,6 @@ public class MenuSistemaController implements Initializable {
 		} catch (Exception e) {
 			Util.mensagemErro(e.getMessage());
 		}
-	}
-
-	@FXML
-	void onActionMenuProfissao(ActionEvent event) {
-		try {
-
-			AnchorPane rootx = new AnchorPane();
-			rootx = FXMLLoader.load(getClass().getResource("/view/MenuPessoa.fxml"));
-			Scene scenex = new Scene(rootx);
-			final Stage stagex = new Stage();
-			stagex.setScene(scenex);
-			stagex.setTitle("Menu | Cadastro de Pessoas");
-			stagex.initModality(Modality.APPLICATION_MODAL);
-			Main main = new Main();
-			stagex.initOwner(main.stage);
-			stagex.show();
-
-		} catch (Exception e) {
-			Util.mensagemErro(e.getMessage());
-		}
-
 	}
 
 	@FXML
@@ -116,7 +126,7 @@ public class MenuSistemaController implements Initializable {
 			Scene scenex = new Scene(rootx);
 			final Stage stagex = new Stage();
 			stagex.setScene(scenex);
-			stagex.setTitle("Menu | Cadastro de Pessoas");
+			stagex.setTitle("Menu | Usuários");
 			stagex.initModality(Modality.APPLICATION_MODAL);
 			Main main = new Main();
 			stagex.initOwner(main.stage);

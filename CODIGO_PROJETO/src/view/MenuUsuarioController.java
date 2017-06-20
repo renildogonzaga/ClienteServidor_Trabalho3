@@ -10,7 +10,6 @@ import model.Pessoa;
 
 import dao.PessoaDAO;
 import dao.UsuarioDAO;
-import dao.ProfissaoDAO;
 import model.Pessoa;
 import util.Util;
 

@@ -4,6 +4,7 @@ public class Pessoa {
 
 	int id_cliente;
 	String nome, cpf, endereco, telefone;
+	
 	public String getTelefone() {
 		return telefone;
 	}

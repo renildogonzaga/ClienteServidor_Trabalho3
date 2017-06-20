@@ -10,10 +10,8 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import dao.PessoaDAO;
-import dao.ProfissaoDAO;
 import dao.Conexao;
 import model.Pessoa;
-import model.Profissao;
 import util.Util;
 
 import javafx.beans.value.ChangeListener;
@@ -67,6 +65,9 @@ public class MenuClienteController implements Initializable {
 	
 	@FXML
 	private Button btnIncluir;
+	
+	@FXML
+	private Button btnEditar;
 
 	@FXML
 	private Button btnAlterar;
@@ -169,10 +170,8 @@ public class MenuClienteController implements Initializable {
 	
 	@FXML
 	void onActionBtnPesquisar(ActionEvent event) throws SQLException {
-
 		// String pesquisaCpf = txtCpfPesquisa.getText();
 		String pesquisaNome = txtNomePesquisa.getText();
-
 		ArrayList<Pessoa> pVazia = new ArrayList<Pessoa>();
 		ObservableList obl = FXCollections.observableArrayList(pVazia);
 		this.tableViewMenuPessoa.setItems(obl);
@@ -209,5 +208,21 @@ public class MenuClienteController implements Initializable {
 	{
 		this.txtNomePesquisa.setText("");
 		this.tableViewMenuPessoa.getItems().clear();
+	}
+	
+	@FXML
+	void onActionBtnEditar(ActionEvent event) throws SQLException {
+		if(tableViewMenuPessoa.getSelectionModel().getSelectedItem() != null){
+			Object pessoa = new Pessoa();
+			PessoaDAO pessoaDAO = new PessoaDAO();
+			pessoa = pessoaDAO.localizarPorCpf(tableViewMenuPessoa.getSelectionModel().getSelectedItem().getCpf());
+			txtCodigo.setText(Integer.toString(((Pessoa) pessoa).getId_cliente()));
+			txtNome.setText(((Pessoa) pessoa).getNome());
+			txtCpf.setText(((Pessoa) pessoa).getCpf());
+			txtTelefone.setText(((Pessoa) pessoa).getTelefone());
+			txtEndereco.setText(((Pessoa) pessoa).getEndereco());
+			tabPane.getSelectionModel().select(tabPaneCadastro);
+			limpaTelaPesquisa();
+		}
 	}
 }

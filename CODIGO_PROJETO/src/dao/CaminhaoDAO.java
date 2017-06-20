@@ -6,13 +6,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Optional;
 
+import model.Caminhao;
 import model.Pessoa;
 
-public class PessoaDAO {
+public class CaminhaoDAO {
 	
-	public int incluir(Pessoa p) {
+	public int incluir(Caminhao c) {
 
 		Conexao conexao = new Conexao();
 		Connection conn = null;
@@ -21,53 +21,25 @@ public class PessoaDAO {
 		PreparedStatement ps = null;
 
 		conn = conexao.abreConexaoBD();
-		String sql = "Select * from cliente where cpf='"+p.getCpf()+"' ";
+		String sql = "Select * from caminhao where num_registro ='"+c.getRegistro()+"' ";
 		int retorno = 0;
 		try {
 			st = (Statement) conn.createStatement();
 			rs = st.executeQuery(sql);
 			if (!rs.next()) {
 				// incluir
-				sql = "insert into cliente (cpf,nome,telefone,endereco) values (?,?,?,?)";
+				sql = "insert into caminhao (num_registro,ano,fabricante, modelo) values (?,?,?,?)";
 				ps = (PreparedStatement) conn.prepareStatement(sql);
-				ps.setString(1, p.getCpf());
-				ps.setString(2, p.getNome());
-				ps.setString(3, p.getTelefone());
-				ps.setString(4, p.getEndereco());
+				ps.setString(1, c.getRegistro());
+				ps.setString(2, c.getAno());
+				ps.setString(3, c.getFabricante());
+				ps.setString(4, c.getModelo());
 				ps.executeUpdate();
 				retorno = 1;
 			} else {
 				// cadastro existente
 				retorno = 3;
 			}
-		} catch (SQLException e) {
-			// erro
-			retorno = 2;
-		}
-		return retorno;
-	}
-	
-	public int alterar(Pessoa p) {
-		Conexao conexao = new Conexao();
-		Connection conn = null;
-		ResultSet rs = null;
-		Statement st = null;
-		PreparedStatement ps = null;
-
-		conn = conexao.abreConexaoBD();
-		String sql = "";
-		int retorno = 0;
-		try {
-			// alterar
-			sql = "update cliente set cpf=?, nome=?, telefone=?, endereco=? where id_cliente=?";
-			ps = (PreparedStatement) conn.prepareStatement(sql);
-			ps.setString(1, p.getCpf());
-			ps.setString(2, p.getNome());
-			ps.setString(3, p.getTelefone());
-			ps.setString(4, p.getEndereco());
-			ps.setInt(5, p.getId_cliente());
-			ps.executeUpdate();
-			retorno = 1;
 		} catch (SQLException e) {
 			// erro
 			retorno = 2;
@@ -87,7 +59,7 @@ public class PessoaDAO {
 		int retorno = 0;
 		try {
 			// excluir
-			sql = "delete from cliente where id_cliente=?";
+			sql = "delete from caminhao where id_caminhao=?";
 			ps = (PreparedStatement) conn.prepareStatement(sql);
 			ps.setInt(1, id);
 			ps.executeUpdate();
@@ -99,35 +71,38 @@ public class PessoaDAO {
 		return retorno;
 	}
 	
-	public Object localizarPorCpf(String cpf){
-		Pessoa p = new Pessoa();
+	public int alterar(Caminhao c) {
 		Conexao conexao = new Conexao();
 		Connection conn = null;
 		ResultSet rs = null;
 		Statement st = null;
+		PreparedStatement ps = null;
+
 		conn = conexao.abreConexaoBD();
-		String sql = "SELECT id_cliente, cpf, nome, telefone, endereco FROM cliente where cpf like'" + cpf + "'";
+		String sql = "";
+		int retorno = 0;
 		try {
-			st = conn.createStatement();
-			rs = st.executeQuery(sql);
-			if (rs.next()) {
-				p.setId_cliente(rs.getInt(1));
-				p.setCpf(rs.getString(2));
-				p.setNome(rs.getString(3));
-				p.setTelefone(rs.getString(4));
-				p.setEndereco(rs.getString(5));
-			}
+			// alterar
+			sql = "update caminhao set num_registro=?, ano=?, fabricante=?, modelo=? where id_caminhao=?";
+			ps = (PreparedStatement) conn.prepareStatement(sql);
+			ps.setString(1, c.getRegistro());
+			ps.setString(2, c.getAno());
+			ps.setString(3, c.getFabricante());
+			ps.setString(4, c.getModelo());
+			ps.setInt(5, c.getId_caminhao());
+			ps.executeUpdate();
+			retorno = 1;
 		} catch (SQLException e) {
-			p.setCpf("");
-			p.setNome("");
+			// erro
+			retorno = 2;
 		}
-		return p;
+		return retorno;
 	}
 	
-	public ArrayList<Pessoa> consultarPessoas(String parametro) {
+	public ArrayList<Caminhao> consultarCaminhoes(String parametro) {
 
-		ArrayList<Pessoa> pessoas = new ArrayList<Pessoa>();
-		Pessoa p;
+		ArrayList<Caminhao> Caminhoes = new ArrayList<Caminhao>();
+		Caminhao c;
 		Conexao conexao = new Conexao();
 		Connection conn = null;
 		ResultSet rs = null;
@@ -135,24 +110,48 @@ public class PessoaDAO {
 		PreparedStatement ps = null;
 		String sql = "";
 		conn = conexao.abreConexaoBD();
-
+		
 		if (parametro == null) {
-			sql = "Select * from cliente order by nome";
+			sql = "Select * from caminhao order by fabricante";
 		} else {
-			sql = "select * from cliente where nome like '" + parametro + "%'";
+			sql = "select * from caminhao where fabricante like '" + parametro + "%'";
 		}
 		try {
 			st = conn.createStatement();
 			rs = st.executeQuery(sql);
 			while (rs.next()) {
-				p = new Pessoa();
-				p.setNome(rs.getString("nome"));
-				p.setCpf(rs.getString("cpf"));
-				pessoas.add(p);
+				c = new Caminhao();
+				c.setRegistro(rs.getString("num_registro"));
+				c.setFabricante(rs.getString("fabricante"));
+				Caminhoes.add(c);
 			}
 		} catch (SQLException e) {
-			pessoas = null;
+			Caminhoes = null;
 		}
-		return pessoas;
+		return Caminhoes;
+	}
+	
+	public Object localizarPorRegistro(String registro){
+		Caminhao c = new Caminhao();
+		Conexao conexao = new Conexao();
+		Connection conn = null;
+		ResultSet rs = null;
+		Statement st = null;
+		conn = conexao.abreConexaoBD();
+		String sql = "SELECT id_caminhao, num_registro, ano, fabricante, modelo FROM caminhao where num_registro like'" + registro + "'";
+		try {
+			st = conn.createStatement();
+			rs = st.executeQuery(sql);
+			if (rs.next()) {
+				c.setId_caminhao(rs.getInt(1));
+				c.setRegistro(rs.getString(2));
+				c.setAno(rs.getString(3));
+				c.setFabricante(rs.getString(4));
+				c.setModelo(rs.getString(5));
+			}
+		} catch (SQLException e) {
+
+		}
+		return c;
 	}
 }
