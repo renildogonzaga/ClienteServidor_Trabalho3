@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import model.Cacamba;
+import model.Caminhao;
 
 public class CacambaDAO {
 	
@@ -126,6 +127,30 @@ public class CacambaDAO {
 			Cacambas = null;
 		}
 		return Cacambas;
+	}
+	
+	public ArrayList<Cacamba> getCacambas() {
+		ArrayList<Cacamba> c = new ArrayList<Cacamba>();
+		Conexao conexao = new Conexao();
+		Connection conn = null;
+		ResultSet rs = null;
+		Statement st = null;
+		PreparedStatement ps = null;
+		String sql = "Select * from cacamba order by descricao";
+		conn = conexao.abreConexaoBD();
+
+		try {
+			st = conn.createStatement();
+			rs = st.executeQuery(sql);
+			while (rs.next()) {
+				Cacamba cacambas = new Cacamba();
+				cacambas.setDescricao(rs.getString("descricao"));
+				c.add(cacambas);
+			}
+		} catch (SQLException e) {
+			c = null;
+		}
+		return c;
 	}
 	
 	public Object localizarPorRegistro(String registro){

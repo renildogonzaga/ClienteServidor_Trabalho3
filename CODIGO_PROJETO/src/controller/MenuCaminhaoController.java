@@ -1,4 +1,4 @@
-package view;
+package controller;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -9,9 +9,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import dao.CacambaDAO;
+import dao.CaminhaoDAO;
 import dao.Conexao;
-import model.Cacamba;
+import model.Caminhao;
 import util.Util;
 
 import javafx.beans.value.ChangeListener;
@@ -31,7 +31,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class MenuCacambaController implements Initializable {
+public class MenuCaminhaoController implements Initializable {
 
 	@FXML
 	private TabPane tabPane;
@@ -46,19 +46,22 @@ public class MenuCacambaController implements Initializable {
 	private TextField txtCodigo;
 	
 	@FXML
-	private TextField txtFabricacao;
+	private TextField txtFabricante;
 
 	@FXML
 	private TextField txtRegistro;
 
 	@FXML
-	private TextField txtFabricacaoPesquisa;
+	private TextField txtFabricantePesquisa;
 
 	@FXML
 	private TextField txtRegistroPesquisa;
+	
+	@FXML
+	private TextField txtAno;
 
 	@FXML
-	private TextField txtDescricao;
+	private TextField txtModelo;
 	
 	@FXML
 	private Button btnIncluir;
@@ -82,13 +85,13 @@ public class MenuCacambaController implements Initializable {
 	private Button btnLimparPesquisa;
 	
     @FXML
-    private TableView<Cacamba> tableViewMenuCacamba;
+    private TableView<Caminhao> tableViewMenuCaminhao;
 
     @FXML
-    private TableColumn<Cacamba,String> colunaFabricacao;
+    private TableColumn<Caminhao,String> colunaFabricante;
 
     @FXML
-    private TableColumn<Cacamba,String> colunaRegistro;
+    private TableColumn<Caminhao,String> colunaRegistro;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -98,16 +101,17 @@ public class MenuCacambaController implements Initializable {
 	@FXML
 	void onActionBtnIncluir(ActionEvent event) throws SQLException {
 
-		Cacamba c = new Cacamba();
-		CacambaDAO cDAO = new CacambaDAO();
+		Caminhao c = new Caminhao();
+		CaminhaoDAO cDAO = new CaminhaoDAO();
 		Util u = new Util();
 		
-		c.setFabricacao(this.txtFabricacao.getText());
+		c.setFabricante(this.txtFabricante.getText());
 		c.setRegistro(this.txtRegistro.getText());
-		c.setDescricao(this.txtDescricao.getText());
+		c.setAno(this.txtAno.getText());
+		c.setModelo(this.txtModelo.getText());
 		
 		//	Verifica se algum campo está em branco
-		if(c.getFabricacao().trim().equals("") || c.getRegistro().trim().equals("") || c.getDescricao().trim().equals("")){
+		if(c.getFabricante().trim().equals("") || c.getRegistro().trim().equals("") || c.getAno().trim().equals("") || c.getModelo().trim().equals("")){
 			u.mensagemErro("Preencha todos os campos!");	
 		}
 		else
@@ -121,19 +125,19 @@ public class MenuCacambaController implements Initializable {
 	@FXML
 	void onActionBtnExcluir(ActionEvent event) throws SQLException {
 
-		Cacamba c = new Cacamba();
-		CacambaDAO cDAO = new CacambaDAO();
+		Caminhao c = new Caminhao();
+		CaminhaoDAO cDAO = new CaminhaoDAO();
 		Util u = new Util();
 		
-		c.setId_cacamba(Integer.parseInt(this.txtCodigo.getText()));
+		c.setId_caminhao(Integer.parseInt(this.txtCodigo.getText()));
 		
 		//	Verifica se algum campo está em branco
-		if(Integer.toString((c.getId_cacamba())).trim().equals("")){
-			//u.mensagemErro("Preencha o código da Caçamba!");	
+		if(Integer.toString((c.getId_caminhao())).trim().equals("")){
+			//u.mensagemErro("Preencha o código do Caminhão!");	
 		}
 		else
 		{
-			cDAO.excluir(c.getId_cacamba());
+			cDAO.excluir(c.getId_caminhao());
 			u.mensagemInformacao("Exclusão Realizada com Sucesso.");
 			this.limpaTela();
 		}
@@ -142,15 +146,16 @@ public class MenuCacambaController implements Initializable {
 	@FXML
 	void onActionBtnAlterar(ActionEvent event) throws SQLException {
 
-		Cacamba c = new Cacamba();
-		CacambaDAO cDAO = new CacambaDAO();
+		Caminhao c = new Caminhao();
+		CaminhaoDAO cDAO = new CaminhaoDAO();
 		Util u = new Util();
-		c.setId_cacamba(Integer.parseInt(this.txtCodigo.getText()));
-		c.setFabricacao(this.txtFabricacao.getText());
+		c.setId_caminhao(Integer.parseInt(this.txtCodigo.getText()));
+		c.setFabricante(this.txtFabricante.getText());
 		c.setRegistro(this.txtRegistro.getText());
-		c.setDescricao(this.txtDescricao.getText());
+		c.setAno(this.txtAno.getText());
+		c.setModelo(this.txtModelo.getText());
 		//	Verifica se algum campo está em branco
-		if(c.getFabricacao().trim().equals("") || c.getRegistro().trim().equals("") || c.getDescricao().trim().equals("")){
+		if(c.getFabricante().trim().equals("") || c.getRegistro().trim().equals("") || c.getAno().trim().equals("") || c.getModelo().trim().equals("")){
 			//u.mensagemErro("Preencha todos os campos!");	
 		}
 		else
@@ -164,18 +169,18 @@ public class MenuCacambaController implements Initializable {
 	@FXML
 	void onActionBtnPesquisar(ActionEvent event) throws SQLException {
 		// String pesquisaRegistro = txtRegistroPesquisa.getText();
-		String pesquisaFabricacao = txtFabricacaoPesquisa.getText();
-		ArrayList<Cacamba> cVazia = new ArrayList<Cacamba>();
+		String pesquisaFabricante = txtFabricantePesquisa.getText();
+		ArrayList<Caminhao> cVazia = new ArrayList<Caminhao>();
 		ObservableList obl = FXCollections.observableArrayList(cVazia);
-		this.tableViewMenuCacamba.setItems(obl);
-		Cacamba c = new Cacamba();
-		CacambaDAO cDAO = new CacambaDAO();
-		ArrayList<Cacamba> getCacambas = new ArrayList<Cacamba>();
-		getCacambas = cDAO.consultarCacambas(pesquisaFabricacao);
-		obl = FXCollections.observableArrayList(getCacambas);
-		this.tableViewMenuCacamba.setItems(obl);
-		this.colunaFabricacao.setCellValueFactory(new PropertyValueFactory<Cacamba, String>("Fabricacao"));
-		this.colunaRegistro.setCellValueFactory(new PropertyValueFactory<Cacamba, String>("Registro"));	
+		this.tableViewMenuCaminhao.setItems(obl);
+		Caminhao c = new Caminhao();
+		CaminhaoDAO cDAO = new CaminhaoDAO();
+		ArrayList<Caminhao> getCaminhoes = new ArrayList<Caminhao>();
+		getCaminhoes = cDAO.consultarCaminhoes(pesquisaFabricante);
+		obl = FXCollections.observableArrayList(getCaminhoes);
+		this.tableViewMenuCaminhao.setItems(obl);
+		this.colunaFabricante.setCellValueFactory(new PropertyValueFactory<Caminhao, String>("Fabricante"));
+		this.colunaRegistro.setCellValueFactory(new PropertyValueFactory<Caminhao, String>("Registro"));	
 	}
 		
 	@FXML
@@ -185,10 +190,11 @@ public class MenuCacambaController implements Initializable {
 	
 	public void limpaTela()
 	{
-		this.txtFabricacao.setText("");
+		this.txtFabricante.setText("");
 		this.txtRegistro.setText("");
 		this.txtCodigo.setText("");
-		this.txtDescricao.setText("");
+		this.txtAno.setText("");
+		this.txtModelo.setText("");
 	}
 	
 	@FXML
@@ -198,20 +204,21 @@ public class MenuCacambaController implements Initializable {
 
 	public void limpaTelaPesquisa()
 	{
-		this.txtFabricacaoPesquisa.setText("");
-		this.tableViewMenuCacamba.getItems().clear();
+		this.txtFabricantePesquisa.setText("");
+		this.tableViewMenuCaminhao.getItems().clear();
 	}
 	
 	@FXML
 	void onActionBtnEditar(ActionEvent event) throws SQLException {
-		if(tableViewMenuCacamba.getSelectionModel().getSelectedItem() != null){
-			Object Cacamba = new Cacamba();
-			CacambaDAO CacambaDAO = new CacambaDAO();
-			Cacamba = CacambaDAO.localizarPorRegistro(tableViewMenuCacamba.getSelectionModel().getSelectedItem().getRegistro());
-			txtCodigo.setText(Integer.toString(((Cacamba) Cacamba).getId_cacamba()));
-			txtFabricacao.setText(((Cacamba) Cacamba).getFabricacao());
-			txtRegistro.setText(((Cacamba) Cacamba).getRegistro());
-			txtDescricao.setText(((Cacamba) Cacamba).getDescricao());
+		if(tableViewMenuCaminhao.getSelectionModel().getSelectedItem() != null){
+			Object Caminhao = new Caminhao();
+			CaminhaoDAO CaminhaoDAO = new CaminhaoDAO();
+			Caminhao = CaminhaoDAO.localizarPorRegistro(tableViewMenuCaminhao.getSelectionModel().getSelectedItem().getRegistro());
+			txtCodigo.setText(Integer.toString(((Caminhao) Caminhao).getId_caminhao()));
+			txtFabricante.setText(((Caminhao) Caminhao).getFabricante());
+			txtRegistro.setText(((Caminhao) Caminhao).getRegistro());
+			txtAno.setText(((Caminhao) Caminhao).getAno());
+			txtModelo.setText(((Caminhao) Caminhao).getModelo());
 			tabPane.getSelectionModel().select(tabPaneCadastro);
 			limpaTelaPesquisa();
 		}

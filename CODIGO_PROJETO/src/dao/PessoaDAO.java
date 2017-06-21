@@ -124,6 +124,31 @@ public class PessoaDAO {
 		return p;
 	}
 	
+	public ArrayList<Pessoa> getPessoas() {
+
+		ArrayList<Pessoa> p = new ArrayList<Pessoa>();
+		Conexao conexao = new Conexao();
+		Connection conn = null;
+		ResultSet rs = null;
+		Statement st = null;
+		PreparedStatement ps = null;
+		String sql = "Select * from cliente order by nome";
+		conn = conexao.abreConexaoBD();
+
+		try {
+			st = conn.createStatement();
+			rs = st.executeQuery(sql);
+			while (rs.next()) {
+				Pessoa pessoas = new Pessoa();
+				pessoas.setNome(rs.getString("nome"));
+				p.add(pessoas);
+			}
+		} catch (SQLException e) {
+			p = null;
+		}
+		return p;
+	}
+	
 	public ArrayList<Pessoa> consultarPessoas(String parametro) {
 
 		ArrayList<Pessoa> pessoas = new ArrayList<Pessoa>();

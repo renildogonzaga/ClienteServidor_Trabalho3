@@ -47,6 +47,31 @@ public class CaminhaoDAO {
 		return retorno;
 	}
 	
+	
+	public ArrayList<Caminhao> getCaminhoes() {
+		ArrayList<Caminhao> c = new ArrayList<Caminhao>();
+		Conexao conexao = new Conexao();
+		Connection conn = null;
+		ResultSet rs = null;
+		Statement st = null;
+		PreparedStatement ps = null;
+		String sql = "Select * from caminhao order by modelo";
+		conn = conexao.abreConexaoBD();
+
+		try {
+			st = conn.createStatement();
+			rs = st.executeQuery(sql);
+			while (rs.next()) {
+				Caminhao caminhoes = new Caminhao();
+				caminhoes.setModelo(rs.getString("modelo"));
+				c.add(caminhoes);
+			}
+		} catch (SQLException e) {
+			c = null;
+		}
+		return c;
+	}
+	
 	public int excluir(int id) {
 		Conexao conexao = new Conexao();
 		Connection conn = null;
